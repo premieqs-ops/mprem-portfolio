@@ -22,12 +22,14 @@ import {
 interface CMSContextValue {
   data: CMSData;
   ready: boolean;
+  configured: boolean;
+  saving: boolean;
   update: (partial: Partial<CMSData>) => void;
   setData: (data: CMSData) => void;
   reset: () => void;
   exportJson: () => void;
   importJson: (file: File) => Promise<void>;
-  save: () => void;
+  save: () => Promise<void>;
   hasChanges: boolean;
 }
 
@@ -37,13 +39,41 @@ const CHANNEL = "mprem_cms_sync";
 export function CMSProvider({ children }: { children: ReactNode }) {
   const [data, setDataState] = useState<CMSData>(getDefaultCMSData);
   const [ready, setReady] = useState(false);
+  const [configured, setConfigured] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [savedSnapshot, setSavedSnapshot] = useState("");
 
   useEffect(() => {
-    const loaded = loadCMSData();
-    setDataState(loaded);
-    setSavedSnapshot(JSON.stringify(loaded));
-    setReady(true);
+    let cancelled = false;
+
+    async function init() {
+      try {
+        const res = await fetch("/api/cms", { cache: "no-store" });
+        if (res.ok) {
+          const json = await res.json();
+          if (!cancelled && json.data) {
+            setConfigured(Boolean(json.configured));
+            setDataState(json.data);
+            setSavedSnapshot(JSON.stringify(json.data));
+            saveCMSData(json.data);
+            setReady(true);
+            return;
+          }
+        }
+      } catch {
+        /* fall through */
+      }
+
+      if (!cancelled) {
+        const loaded = loadCMSData();
+        setDataState(loaded);
+        setSavedSnapshot(JSON.stringify(loaded));
+        setConfigured(false);
+        setReady(true);
+      }
+    }
+
+    init();
 
     const onUpdate = (e: Event) => {
       const detail = (e as CustomEvent<CMSData>).detail;
@@ -81,6 +111,7 @@ export function CMSProvider({ children }: { children: ReactNode }) {
     window.addEventListener("storage", onStorage);
 
     return () => {
+      cancelled = true;
       window.removeEventListener("cms-updated", onUpdate);
       window.removeEventListener("storage", onStorage);
       bc?.close();
@@ -99,21 +130,40 @@ export function CMSProvider({ children }: { children: ReactNode }) {
     setDataState(next);
   }, []);
 
-  const save = useCallback(() => {
-    setDataState((prev) => {
-      const next = { ...prev, updatedAt: new Date().toISOString() };
-      saveCMSData(next);
-      try {
-        const bc = new BroadcastChannel(CHANNEL);
-        bc.postMessage({ type: "cms-data", payload: next });
-        bc.close();
-      } catch {
-        /* ignore */
+  const save = useCallback(async () => {
+    setSaving(true);
+    const next: CMSData = { ...data, updatedAt: new Date().toISOString() };
+    setDataState(next);
+    saveCMSData(next);
+    try {
+      const res = await fetch("/api/cms", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(next),
+      });
+      if (res.ok) {
+        setConfigured(true);
+        setSavedSnapshot(JSON.stringify(next));
+        try {
+          const bc = new BroadcastChannel(CHANNEL);
+          bc.postMessage({ type: "cms-data", payload: next });
+          bc.close();
+        } catch {
+          /* ignore */
+        }
+      } else {
+        const err = await res.json().catch(() => ({}));
+        setSavedSnapshot(JSON.stringify(next));
+        if (res.status === 503) {
+          console.warn("Saved locally only (Supabase not configured)", err);
+        } else {
+          throw new Error(err.error || "Save failed");
+        }
       }
-      queueMicrotask(() => setSavedSnapshot(JSON.stringify(next)));
-      return next;
-    });
-  }, []);
+    } finally {
+      setSaving(false);
+    }
+  }, [data]);
 
   const reset = useCallback(() => {
     const d = resetCMSData();
@@ -140,6 +190,8 @@ export function CMSProvider({ children }: { children: ReactNode }) {
     () => ({
       data,
       ready,
+      configured,
+      saving,
       update,
       setData,
       reset,
@@ -148,7 +200,19 @@ export function CMSProvider({ children }: { children: ReactNode }) {
       save,
       hasChanges,
     }),
-    [data, ready, update, setData, reset, exportJson, importJson, save, hasChanges]
+    [
+      data,
+      ready,
+      configured,
+      saving,
+      update,
+      setData,
+      reset,
+      exportJson,
+      importJson,
+      save,
+      hasChanges,
+    ]
   );
 
   return <CMSContext.Provider value={value}>{children}</CMSContext.Provider>;
