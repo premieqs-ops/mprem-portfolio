@@ -1,1 +1,1 @@
-PLACEHOLDER
+export const profileImageSrc = "/profile.jpg";
