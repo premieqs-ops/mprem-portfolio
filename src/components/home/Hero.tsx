@@ -57,7 +57,7 @@ export default function Hero() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="space-y-8">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-              <Badge>Digital Marketing • Business Development • Growth</Badge>
+              <Badge>Digital Marketing \u2022 Business Development \u2022 Growth</Badge>
             </motion.div>
 
             <motion.h1
@@ -121,13 +121,15 @@ export default function Hero() {
               style={{ x, y }}
               className="relative w-72 h-80 md:w-80 md:h-96 rounded-3xl overflow-hidden glass-card border-accent/20 shadow-glow-lg"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-accent/20 via-background-tertiary to-accent-electric/10" />
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <div className="w-32 h-32 rounded-full bg-accent/20 border-2 border-accent/40 flex items-center justify-center mb-4">
-                  <span className="text-4xl font-display font-bold text-accent-light">MP</span>
-                </div>
-                <p className="text-sm text-foreground-muted">M Prem</p>
-                <p className="text-xs text-foreground-subtle mt-1">Chennai, India</p>
+              <img
+                src="/profile.jpg"
+                alt="M Prem"
+                className="absolute inset-0 w-full h-full object-cover object-top"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-5">
+                <p className="text-sm font-medium text-foreground">M Prem</p>
+                <p className="text-xs text-foreground-subtle">Chennai, India</p>
               </div>
               <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-accent/30 via-accent-electric/20 to-accent/30 blur-sm -z-10" />
             </motion.div>
