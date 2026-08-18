@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import { siteSettings } from "@/data/mock";
 import ScrollProgress from "@/components/layout/ScrollProgress";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
+import Providers from "@/components/Providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -39,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://mprem.in",
+    url: "https://mprem-portfolio.vercel.app",
     siteName: "M Prem",
     title: siteSettings.siteTitle,
     description: siteSettings.siteDescription,
@@ -65,11 +66,13 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased bg-background text-foreground`}
       >
-        <ScrollProgress />
-        <Navbar />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
-        <WhatsAppButton />
+        <Providers>
+          <ScrollProgress />
+          <Navbar />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+          <WhatsAppButton />
+        </Providers>
       </body>
     </html>
   );
