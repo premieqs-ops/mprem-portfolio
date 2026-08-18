@@ -6,7 +6,6 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Badge from "@/components/ui/Badge";
 import { useCMSData } from "@/components/cms/CMSProvider";
-import { profileImageSrc } from "@/data/profileImage";
 
 const floatingNodes = [
   { label: "Google", x: "10%", y: "20%" },
@@ -55,16 +54,16 @@ export default function Hero() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="space-y-8">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-              <Badge>{profile.headline || "Digital Marketing • Business Development • Growth"}</Badge>
+              <Badge>{profile.headline || "Digital Marketing • Business Development"}</Badge>
             </motion.div>
 
             <motion.h1
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-[3.5rem] xl:text-6xl font-display font-bold leading-[1.1] tracking-tight"
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight leading-[1.1]"
             >
-              I Build <span className="text-gradient">Digital Strategies</span> That Move Businesses Forward.
+              <span className="text-gradient">{profile.name}</span>
             </motion.h1>
 
             <motion.p
@@ -74,7 +73,7 @@ export default function Hero() {
               className="text-lg md:text-xl text-foreground-muted max-w-xl leading-relaxed"
             >
               {profile.bio?.split("\n\n")[0] ||
-                "From digital marketing and lead generation to business development and growth strategy, I combine creative thinking with practical execution."}
+                "I work at the intersection of digital marketing, business development and technology — turning strategy into measurable growth."}
             </motion.p>
 
             <motion.div
@@ -83,18 +82,19 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="flex flex-wrap items-center gap-4"
             >
-              <Link href="/contact" className="btn-primary group">
-                Start a Conversation
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <Link href="/contact" className="btn-primary inline-flex items-center gap-2">
+                Let&apos;s Talk
+                <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href="/projects" className="btn-secondary">
-                View My Work
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-1.5 text-sm text-foreground-muted hover:text-accent-light transition-colors"
+              >
+                About me
+                <ArrowUpRight className="w-3.5 h-3.5" />
               </Link>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
               <a
-                href={profile.linkedin}
+                href={profile.linkedin || "https://www.linkedin.com/in/m-prem-/"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-sm text-foreground-muted hover:text-accent-light transition-colors"
@@ -117,7 +117,7 @@ export default function Hero() {
               className="relative w-72 h-80 md:w-80 md:h-96 rounded-3xl overflow-hidden glass-card border-accent/20 shadow-glow-lg"
             >
               <img
-                src={profileImageSrc}
+                src={profile.profileImage || "/profile.jpg"}
                 alt={profile.name}
                 className="absolute inset-0 w-full h-full object-cover object-top"
               />
