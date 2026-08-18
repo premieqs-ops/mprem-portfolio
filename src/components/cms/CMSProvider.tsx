@@ -32,6 +32,7 @@ interface CMSContextValue {
 }
 
 const CMSContext = createContext<CMSContextValue | null>(null);
+const CHANNEL = "mprem_cms_sync";
 
 export function CMSProvider({ children }: { children: ReactNode }) {
   const [data, setDataState] = useState<CMSData>(getDefaultCMSData);
@@ -52,7 +53,38 @@ export function CMSProvider({ children }: { children: ReactNode }) {
       }
     };
     window.addEventListener("cms-updated", onUpdate);
-    return () => window.removeEventListener("cms-updated", onUpdate);
+
+    let bc: BroadcastChannel | null = null;
+    try {
+      bc = new BroadcastChannel(CHANNEL);
+      bc.onmessage = (ev) => {
+        if (ev.data?.type === "cms-data" && ev.data.payload) {
+          setDataState(ev.data.payload);
+          setSavedSnapshot(JSON.stringify(ev.data.payload));
+        }
+      };
+    } catch {
+      /* ignore */
+    }
+
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "mprem_cms_v1" && e.newValue) {
+        try {
+          const parsed = JSON.parse(e.newValue) as CMSData;
+          setDataState(parsed);
+          setSavedSnapshot(JSON.stringify(parsed));
+        } catch {
+          /* ignore */
+        }
+      }
+    };
+    window.addEventListener("storage", onStorage);
+
+    return () => {
+      window.removeEventListener("cms-updated", onUpdate);
+      window.removeEventListener("storage", onStorage);
+      bc?.close();
+    };
   }, []);
 
   const update = useCallback((partial: Partial<CMSData>) => {
@@ -71,6 +103,13 @@ export function CMSProvider({ children }: { children: ReactNode }) {
     setDataState((prev) => {
       const next = { ...prev, updatedAt: new Date().toISOString() };
       saveCMSData(next);
+      try {
+        const bc = new BroadcastChannel(CHANNEL);
+        bc.postMessage({ type: "cms-data", payload: next });
+        bc.close();
+      } catch {
+        /* ignore */
+      }
       queueMicrotask(() => setSavedSnapshot(JSON.stringify(next)));
       return next;
     });
@@ -123,6 +162,6 @@ export function useCMS() {
 
 export function useCMSData(): CMSData {
   const ctx = useContext(CMSContext);
-  if (ctx?.ready) return ctx.data;
-  return getDefaultCMSData();
+  if (!ctx) return getDefaultCMSData();
+  return ctx.data;
 }
