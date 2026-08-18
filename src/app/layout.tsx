@@ -2,12 +2,9 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { siteSettings } from "@/data/mock";
-import ScrollProgress from "@/components/layout/ScrollProgress";
-import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import Providers from "@/components/Providers";
+import SiteShell from "@/components/SiteShell";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -67,11 +64,7 @@ export default function RootLayout({
         className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased bg-background text-foreground`}
       >
         <Providers>
-          <ScrollProgress />
-          <Navbar />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-          <WhatsAppButton />
+          <SiteShell>{children}</SiteShell>
         </Providers>
       </body>
     </html>

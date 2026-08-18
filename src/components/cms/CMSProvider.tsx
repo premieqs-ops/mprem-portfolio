@@ -69,9 +69,10 @@ export function CMSProvider({ children }: { children: ReactNode }) {
 
   const save = useCallback(() => {
     setDataState((prev) => {
-      saveCMSData(prev);
-      setSavedSnapshot(JSON.stringify(prev));
-      return prev;
+      const next = { ...prev, updatedAt: new Date().toISOString() };
+      saveCMSData(next);
+      queueMicrotask(() => setSavedSnapshot(JSON.stringify(next)));
+      return next;
     });
   }, []);
 
