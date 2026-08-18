@@ -1,15 +1,14 @@
 "use client";
 
 import { MessageCircle } from "lucide-react";
-import { siteSettings } from "@/data/mock";
+import { useCMSData } from "@/components/cms/CMSProvider";
 
 export default function WhatsAppButton() {
+  const { siteSettings } = useCMSData();
   if (!siteSettings.enableWhatsapp || !siteSettings.whatsappNumber) {
     return null;
   }
-
   const url = `https://wa.me/${siteSettings.whatsappNumber.replace(/\D/g, "")}`;
-
   return (
     <a
       href={url}
