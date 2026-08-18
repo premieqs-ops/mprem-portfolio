@@ -1,1 +1,1 @@
-export const profileImageSrc = "/profile.jpg";
+PLACEHOLDER_WILL_FAIL
