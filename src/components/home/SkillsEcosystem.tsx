@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { skills } from "@/data/mock";
+import { useCMSData } from "@/components/cms/CMSProvider";
 import { cn } from "@/lib/utils";
 import Badge from "@/components/ui/Badge";
 
 export default function SkillsEcosystem() {
+  const { skills } = useCMSData();
   const [active, setActive] = useState<string | null>(null);
   const activeSkill = skills.find((s) => s.id === active);
 
@@ -18,38 +19,16 @@ export default function SkillsEcosystem() {
           <h2 className="section-heading mb-4">Skill Ecosystem</h2>
           <p className="section-subheading mx-auto">An interconnected set of capabilities. Click any skill to explore.</p>
         </div>
-
         <div className="flex flex-wrap justify-center gap-3 md:gap-4 mb-12">
           {skills.map((skill, i) => (
-            <motion.button
-              key={skill.id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.04 }}
-              onClick={() => setActive(active === skill.id ? null : skill.id)}
-              className={cn(
-                "px-4 py-2.5 rounded-full text-sm font-medium border transition-all duration-300",
-                active === skill.id
-                  ? "bg-accent/20 border-accent text-accent-light shadow-glow-sm"
-                  : "bg-background-card border-border text-foreground-muted hover:border-accent/40 hover:text-foreground"
-              )}
-            >
+            <motion.button key={skill.id} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.04 }} onClick={() => setActive(active === skill.id ? null : skill.id)} className={cn("px-4 py-2.5 rounded-full text-sm font-medium border transition-all duration-300", active === skill.id ? "bg-accent/20 border-accent text-accent-light shadow-glow-sm" : "bg-background-card border-border text-foreground-muted hover:border-accent/40 hover:text-foreground")}>
               {skill.name}
             </motion.button>
           ))}
         </div>
-
         <AnimatePresence mode="wait">
           {activeSkill && (
-            <motion.div
-              key={activeSkill.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-              className="max-w-2xl mx-auto glass-card p-6 md:p-8"
-            >
+            <motion.div key={activeSkill.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }} className="max-w-2xl mx-auto glass-card p-6 md:p-8">
               <h3 className="text-xl font-display font-semibold mb-2">{activeSkill.name}</h3>
               <p className="text-foreground-muted mb-4">{activeSkill.description}</p>
               {activeSkill.relatedTools.length > 0 && (

@@ -4,7 +4,7 @@ import type { ComponentType } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Megaphone, Search, Target, TrendingUp, Share2, Bot, ArrowRight } from "lucide-react";
-import { services } from "@/data/mock";
+import { useCMSData } from "@/components/cms/CMSProvider";
 import { cn } from "@/lib/utils";
 
 const iconMap: Record<string, ComponentType<{ className?: string }>> = {
@@ -22,21 +22,15 @@ const item = {
 };
 
 export default function WhatIDo() {
+  const { services } = useCMSData();
   return (
     <section className="relative py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 md:mb-20">
-          <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="badge mb-4">
-            What I Do
-          </motion.p>
-          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="section-heading mb-4">
-            From Strategy to Execution.
-          </motion.h2>
-          <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="section-subheading mx-auto">
-            Practical digital solutions designed around business outcomes.
-          </motion.p>
+          <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="badge mb-4">What I Do</motion.p>
+          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="section-heading mb-4">From Strategy to Execution.</motion.h2>
+          <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="section-subheading mx-auto">Practical digital solutions designed around business outcomes.</motion.p>
         </div>
-
         <motion.div variants={container} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-50px" }} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => {
             const Icon = iconMap[service.icon] || Megaphone;

@@ -4,10 +4,11 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Badge from "@/components/ui/Badge";
-import { profile } from "@/data/mock";
+import { useCMSData } from "@/components/cms/CMSProvider";
 import { profileImageSrc } from "@/data/profileImage";
 
 export default function AboutPreview() {
+  const { profile } = useCMSData();
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-accent/5 to-transparent pointer-events-none" />
@@ -22,14 +23,9 @@ export default function AboutPreview() {
           </motion.div>
           <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="space-y-6">
             <Badge>About</Badge>
-            <h2 className="section-heading">
-              More Than Marketing.<br />
-              <span className="text-gradient">It&apos;s About Growth.</span>
-            </h2>
+            <h2 className="section-heading">More Than Marketing.<br /><span className="text-gradient">It&apos;s About Growth.</span></h2>
             <div className="space-y-4 text-foreground-muted leading-relaxed">
-              {profile.bio.split("\n\n").map((para, i) => (
-                <p key={i}>{para}</p>
-              ))}
+              {profile.bio.split("\n\n").map((para, i) => (<p key={i}>{para}</p>))}
             </div>
             <div>
               <p className="text-sm font-medium text-foreground-subtle mb-3 uppercase tracking-wider">Currently Exploring</p>
