@@ -331,6 +331,7 @@ export const siteSettings: SiteSettings = {
   logo: "",
   primaryColor: "#3b82f6",
   accentColor: "#00d4ff",
+  electricColor: "#00d4ff",
   ogImage: "/og-default.png",
   googleAnalyticsId: "",
   contactEmail: "hello@mprem.in",
