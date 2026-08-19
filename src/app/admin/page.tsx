@@ -6,10 +6,10 @@ import Link from "next/link";
 import {
   LayoutDashboard, User, Briefcase, Layers, FolderKanban, FileText,
   Settings, LogOut, Save, Download, Upload, RotateCcw, Plus, Trash2,
-  ExternalLink, Check, Sparkles,
+  ExternalLink, Check, Sparkles, Newspaper,
 } from "lucide-react";
 import { useCMS } from "@/components/cms/CMSProvider";
-import type { Experience, Service, Skill, Project, CaseStudy } from "@/types";
+import type { Experience, Service, Skill, Project, CaseStudy, NewsItem } from "@/types";
 
 const TABS = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -19,6 +19,7 @@ const TABS = [
   { id: "skills", label: "Skills", icon: Sparkles },
   { id: "projects", label: "Projects", icon: FolderKanban },
   { id: "case-studies", label: "Case Studies", icon: FileText },
+  { id: "news", label: "News & Trends", icon: Newspaper },
   { id: "settings", label: "Settings", icon: Settings },
 ] as const;
 
@@ -29,9 +30,18 @@ const inputCls = () =>
 const labelCls = () =>
   "block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider";
 
+const THEME_PRESETS = [
+  { p: "#3b82f6", e: "#00d4ff", n: "Blue" },
+  { p: "#8b5cf6", e: "#a78bfa", n: "Violet" },
+  { p: "#06b6d4", e: "#22d3ee", n: "Cyan" },
+  { p: "#10b981", e: "#34d399", n: "Emerald" },
+  { p: "#f59e0b", e: "#fbbf24", n: "Amber" },
+  { p: "#ec4899", e: "#f472b6", n: "Pink" },
+];
+
 function AdminInner() {
   const router = useRouter();
-  const { data, ready, update, save, reset, exportJson, importJson, hasChanges } = useCMS();
+  const { data, ready, update, save, reset, exportJson, importJson, hasChanges, configured, saving } = useCMS();
   const [tab, setTab] = useState<TabId>("dashboard");
   const [authed, setAuthed] = useState(false);
   const [toast, setToast] = useState("");
@@ -44,13 +54,13 @@ function AdminInner() {
 
   const showToast = (msg: string) => {
     setToast(msg);
-    setTimeout(() => setToast(""), 2500);
+    setTimeout(() => setToast(""), 2800);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     try {
-      save();
-      showToast("Saved — live on this browser");
+      await save();
+      showToast(configured ? "Saved & synced" : "Saved — sticks on refresh in this browser");
     } catch (err) {
       console.error(err);
       showToast("Save failed — try again");
@@ -69,6 +79,8 @@ function AdminInner() {
       </div>
     );
   }
+
+  const news = data.news || [];
 
   return (
     <div className="min-h-screen bg-[#05070a] text-white flex">
@@ -113,10 +125,10 @@ function AdminInner() {
               if (f) { await importJson(f); showToast("Imported"); }
             }} />
             <button type="button" onClick={() => { if (confirm("Reset all to defaults?")) { reset(); showToast("Reset done"); } }} className="p-2 rounded-lg text-white/40 hover:text-red-400" title="Reset"><RotateCcw className="w-4 h-4" /></button>
-            <button type="button" onClick={handleSave} className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium ${
+            <button type="button" onClick={handleSave} disabled={saving} className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium ${
               hasChanges ? "bg-blue-500 text-white shadow-lg shadow-blue-500/25 hover:bg-blue-400" : "bg-white/10 text-white/50"
             }`}>
-              <Save className="w-3.5 h-3.5" /> Save
+              <Save className="w-3.5 h-3.5" /> {saving ? "Saving…" : "Save"}
             </button>
           </div>
         </header>
@@ -134,8 +146,8 @@ function AdminInner() {
                 {[
                   ["Services", data.services.length], ["Experience", data.experiences.length],
                   ["Skills", data.skills.length], ["Projects", data.projects.length],
-                  ["Case Studies", data.caseStudies.length], ["Articles", data.articles.length],
-                  ["Testimonials", data.testimonials.length], ["Certifications", data.certifications.length],
+                  ["Case Studies", data.caseStudies.length], ["News", news.length],
+                  ["Articles", data.articles.length], ["Testimonials", data.testimonials.length],
                 ].map(([label, value]) => (
                   <div key={String(label)} className="rounded-xl border border-white/10 bg-[#0a0e14] p-4">
                     <p className="text-2xl font-bold">{value}</p>
@@ -143,12 +155,16 @@ function AdminInner() {
                   </div>
                 ))}
               </div>
-              <div className="rounded-xl border border-white/10 bg-[#0a0e14] p-5 space-y-3 text-sm text-white/50">
+              <div className={`rounded-xl border p-4 text-sm ${configured ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300" : "border-amber-500/30 bg-amber-500/10 text-amber-200"}`}>
+                {configured
+                  ? "Cloud sync active — Save updates the live site for everyone."
+                  : "Saves stay in this browser until Supabase is connected. Export JSON as backup."}
+              </div>
+              <div className="rounded-xl border border-white/10 bg-[#0a0e14] p-5 space-y-2 text-sm text-white/50">
                 <h2 className="font-semibold text-white">How to use</h2>
-                <p>1. Edit any section from the sidebar</p>
+                <p>1. Edit any section from the sidebar (Profile, Services, News, Theme…)</p>
                 <p>2. Click <strong className="text-white">Save</strong></p>
-                <p>3. Open the public site in the <strong className="text-white">same browser</strong> — updates show immediately</p>
-                <p>4. Use Export/Import to backup or move data</p>
+                <p>3. Hard-refresh the public site — changes stick in this browser</p>
                 <Link href="/" target="_blank" className="inline-flex items-center gap-2 text-blue-400 hover:underline pt-2">
                   Open public site <ExternalLink className="w-3.5 h-3.5" />
                 </Link>
@@ -291,20 +307,135 @@ function AdminInner() {
             </div>
           )}
 
+          {tab === "news" && (
+            <div className="max-w-3xl space-y-4">
+              <p className="text-sm text-white/50">Digital marketing & AI updates shown on homepage and /insights. Only publish valid, useful items.</p>
+              {news.map((item, idx) => (
+                <div key={item.id} className="rounded-xl border border-white/10 bg-[#0a0e14] p-5 space-y-3">
+                  <div className="flex gap-2">
+                    <input className={inputCls()} value={item.title} placeholder="Title" onChange={(e) => {
+                      const next = [...news]; next[idx] = { ...item, title: e.target.value }; update({ news: next });
+                    }} />
+                    <button type="button" onClick={() => update({ news: news.filter((n) => n.id !== item.id) })} className="text-white/30 hover:text-red-400"><Trash2 className="w-4 h-4" /></button>
+                  </div>
+                  <textarea rows={3} className={inputCls()} value={item.summary} placeholder="Summary" onChange={(e) => {
+                    const next = [...news]; next[idx] = { ...item, summary: e.target.value }; update({ news: next });
+                  }} />
+                  <div className="grid sm:grid-cols-4 gap-3">
+                    <div>
+                      <label className={labelCls()}>Category</label>
+                      <select className={inputCls()} value={item.category} onChange={(e) => {
+                        const next = [...news]; next[idx] = { ...item, category: e.target.value as NewsItem["category"] }; update({ news: next });
+                      }}>
+                        <option value="digital-marketing">Digital Marketing</option>
+                        <option value="ai">AI</option>
+                        <option value="seo">SEO</option>
+                        <option value="growth">Growth</option>
+                        <option value="tools">Tools</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className={labelCls()}>Date</label>
+                      <input type="date" className={inputCls()} value={item.publishedAt} onChange={(e) => {
+                        const next = [...news]; next[idx] = { ...item, publishedAt: e.target.value }; update({ news: next });
+                      }} />
+                    </div>
+                    <div>
+                      <label className={labelCls()}>Source</label>
+                      <input className={inputCls()} value={item.source} onChange={(e) => {
+                        const next = [...news]; next[idx] = { ...item, source: e.target.value }; update({ news: next });
+                      }} />
+                    </div>
+                    <div>
+                      <label className={labelCls()}>Status</label>
+                      <select className={inputCls()} value={item.status} onChange={(e) => {
+                        const next = [...news]; next[idx] = { ...item, status: e.target.value as NewsItem["status"] }; update({ news: next });
+                      }}>
+                        <option value="published">Published</option>
+                        <option value="draft">Draft</option>
+                        <option value="archived">Archived</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelCls()}>Source URL</label>
+                    <input className={inputCls()} value={item.url} placeholder="https://..." onChange={(e) => {
+                      const next = [...news]; next[idx] = { ...item, url: e.target.value }; update({ news: next });
+                    }} />
+                  </div>
+                </div>
+              ))}
+              <button type="button" onClick={() => {
+                const item: NewsItem = {
+                  id: `n-${Date.now()}`,
+                  title: "New update title",
+                  summary: "Short practical summary.",
+                  category: "digital-marketing",
+                  source: "Industry",
+                  url: "",
+                  publishedAt: new Date().toISOString().slice(0, 10),
+                  featured: false,
+                  status: "published",
+                  order: news.length + 1,
+                };
+                update({ news: [...news, item] });
+              }} className="flex items-center gap-2 px-4 py-2 rounded-lg border border-dashed border-white/20 text-sm text-white/50 hover:text-white"><Plus className="w-4 h-4" /> Add update</button>
+            </div>
+          )}
+
           {tab === "settings" && (
-            <div className="max-w-2xl rounded-xl border border-white/10 bg-[#0a0e14] p-5 space-y-4">
-              <div><label className={labelCls()}>Site title</label>
-                <input className={inputCls()} value={data.siteSettings.siteTitle} onChange={(e) => update({ siteSettings: { ...data.siteSettings, siteTitle: e.target.value } })} /></div>
-              <div><label className={labelCls()}>Site description</label>
-                <textarea rows={3} className={inputCls()} value={data.siteSettings.siteDescription} onChange={(e) => update({ siteSettings: { ...data.siteSettings, siteDescription: e.target.value } })} /></div>
-              <div><label className={labelCls()}>Contact email</label>
-                <input className={inputCls()} value={data.siteSettings.contactEmail} onChange={(e) => update({ siteSettings: { ...data.siteSettings, contactEmail: e.target.value } })} /></div>
-              <div><label className={labelCls()}>WhatsApp number</label>
-                <input className={inputCls()} value={data.siteSettings.whatsappNumber} onChange={(e) => update({ siteSettings: { ...data.siteSettings, whatsappNumber: e.target.value } })} /></div>
-              <div><label className={labelCls()}>LinkedIn URL</label>
-                <input className={inputCls()} value={data.siteSettings.linkedinUrl} onChange={(e) => update({ siteSettings: { ...data.siteSettings, linkedinUrl: e.target.value } })} /></div>
-              <div><label className={labelCls()}>Capabilities (comma separated)</label>
-                <input className={inputCls()} value={data.capabilities.join(", ")} onChange={(e) => update({ capabilities: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) })} /></div>
+            <div className="max-w-2xl space-y-4">
+              <div className="rounded-xl border border-white/10 bg-[#0a0e14] p-5 space-y-4">
+                <h3 className="text-sm font-semibold text-white/80 uppercase tracking-wider">Site</h3>
+                <div><label className={labelCls()}>Site title</label>
+                  <input className={inputCls()} value={data.siteSettings.siteTitle} onChange={(e) => update({ siteSettings: { ...data.siteSettings, siteTitle: e.target.value } })} /></div>
+                <div><label className={labelCls()}>Site description</label>
+                  <textarea rows={3} className={inputCls()} value={data.siteSettings.siteDescription} onChange={(e) => update({ siteSettings: { ...data.siteSettings, siteDescription: e.target.value } })} /></div>
+                <div><label className={labelCls()}>Contact email</label>
+                  <input className={inputCls()} value={data.siteSettings.contactEmail} onChange={(e) => update({ siteSettings: { ...data.siteSettings, contactEmail: e.target.value } })} /></div>
+                <div><label className={labelCls()}>WhatsApp number</label>
+                  <input className={inputCls()} value={data.siteSettings.whatsappNumber} onChange={(e) => update({ siteSettings: { ...data.siteSettings, whatsappNumber: e.target.value } })} /></div>
+                <div><label className={labelCls()}>LinkedIn URL</label>
+                  <input className={inputCls()} value={data.siteSettings.linkedinUrl} onChange={(e) => update({ siteSettings: { ...data.siteSettings, linkedinUrl: e.target.value } })} /></div>
+                <div><label className={labelCls()}>Capabilities (comma separated)</label>
+                  <input className={inputCls()} value={data.capabilities.join(", ")} onChange={(e) => update({ capabilities: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) })} /></div>
+              </div>
+
+              <div className="rounded-xl border border-white/10 bg-[#0a0e14] p-5 space-y-4">
+                <h3 className="text-sm font-semibold text-white/80 uppercase tracking-wider">Premium color theme</h3>
+                <p className="text-xs text-white/40">Colors apply across the public site after Save.</p>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelCls()}>Primary</label>
+                    <div className="flex items-center gap-2">
+                      <input type="color" className="h-10 w-12 rounded cursor-pointer bg-transparent border-0" value={data.siteSettings.primaryColor || "#3b82f6"} onChange={(e) => update({ siteSettings: { ...data.siteSettings, primaryColor: e.target.value } })} />
+                      <input className={inputCls()} value={data.siteSettings.primaryColor || "#3b82f6"} onChange={(e) => update({ siteSettings: { ...data.siteSettings, primaryColor: e.target.value } })} />
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelCls()}>Accent / Electric</label>
+                    <div className="flex items-center gap-2">
+                      <input type="color" className="h-10 w-12 rounded cursor-pointer bg-transparent border-0" value={data.siteSettings.electricColor || data.siteSettings.accentColor || "#00d4ff"} onChange={(e) => update({ siteSettings: { ...data.siteSettings, electricColor: e.target.value, accentColor: e.target.value } })} />
+                      <input className={inputCls()} value={data.siteSettings.electricColor || data.siteSettings.accentColor || "#00d4ff"} onChange={(e) => update({ siteSettings: { ...data.siteSettings, electricColor: e.target.value, accentColor: e.target.value } })} />
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label className={labelCls()}>Presets</label>
+                  <div className="flex flex-wrap gap-2">
+                    {THEME_PRESETS.map((preset) => (
+                      <button
+                        key={preset.n}
+                        type="button"
+                        title={preset.n}
+                        className="w-9 h-9 rounded-full border border-white/20 hover:scale-110 transition-transform"
+                        style={{ background: `linear-gradient(135deg, ${preset.p}, ${preset.e})` }}
+                        onClick={() => update({ siteSettings: { ...data.siteSettings, primaryColor: preset.p, accentColor: preset.e, electricColor: preset.e } })}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </main>
