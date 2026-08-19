@@ -144,6 +144,19 @@ export interface Lead {
   createdAt: string;
 }
 
+export interface NewsItem {
+  id: string;
+  title: string;
+  summary: string;
+  category: "digital-marketing" | "ai" | "seo" | "growth" | "tools";
+  source: string;
+  url: string;
+  publishedAt: string;
+  featured: boolean;
+  status: ContentStatus;
+  order: number;
+}
+
 export interface SiteSettings {
   siteTitle: string;
   siteDescription: string;
@@ -151,6 +164,7 @@ export interface SiteSettings {
   logo: string;
   primaryColor: string;
   accentColor: string;
+  electricColor: string;
   ogImage: string;
   googleAnalyticsId: string;
   contactEmail: string;
