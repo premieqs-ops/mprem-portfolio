@@ -6,6 +6,7 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Badge from "@/components/ui/Badge";
 import { useCMSData } from "@/components/cms/CMSProvider";
+import NetworkParticles from "@/components/home/NetworkParticles";
 
 const floatingNodes = [
   { label: "SEO", x: "8%", y: "18%" },
@@ -49,6 +50,10 @@ export default function Hero() {
           backgroundSize: "60px 60px",
         }}
       />
+      {/* Digital marketing network + soft particles */}
+      <div className="absolute inset-0 opacity-70">
+        <NetworkParticles />
+      </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full py-16 md:py-24">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
