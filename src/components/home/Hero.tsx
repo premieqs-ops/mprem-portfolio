@@ -8,13 +8,13 @@ import Badge from "@/components/ui/Badge";
 import { useCMSData } from "@/components/cms/CMSProvider";
 
 const floatingNodes = [
-  { label: "Google", x: "10%", y: "20%" },
-  { label: "Meta", x: "80%", y: "15%" },
-  { label: "SEO", x: "5%", y: "60%" },
-  { label: "Analytics", x: "85%", y: "55%" },
-  { label: "AI", x: "20%", y: "85%" },
-  { label: "Lead Gen", x: "70%", y: "80%" },
-  { label: "Biz Dev", x: "45%", y: "10%" },
+  { label: "SEO", x: "8%", y: "18%" },
+  { label: "Google Ads", x: "78%", y: "12%" },
+  { label: "Lead Gen", x: "4%", y: "58%" },
+  { label: "Analytics", x: "82%", y: "52%" },
+  { label: "AI Systems", x: "18%", y: "82%" },
+  { label: "Meta Ads", x: "72%", y: "78%" },
+  { label: "Pipeline", x: "42%", y: "8%" },
 ];
 
 export default function Hero() {
@@ -54,16 +54,16 @@ export default function Hero() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="space-y-8">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-              <Badge>{profile.headline || "Digital Marketing • Business Development"}</Badge>
+              <Badge>{profile.headline || "Digital Marketing • Business Development • Growth"}</Badge>
             </motion.div>
 
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight leading-[1.1]"
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-[3.5rem] xl:text-6xl font-display font-bold leading-[1.1] tracking-tight"
             >
-              <span className="text-gradient">{profile.name}</span>
+              Digital Marketing That <span className="text-gradient">Feeds Pipeline</span> — Not Just Activity.
             </motion.h1>
 
             <motion.p
@@ -73,7 +73,7 @@ export default function Hero() {
               className="text-lg md:text-xl text-foreground-muted max-w-xl leading-relaxed"
             >
               {profile.bio?.split("\n\n")[0] ||
-                "I work at the intersection of digital marketing, business development and technology — turning strategy into measurable growth."}
+                "From digital marketing and lead generation to business development and growth strategy, I combine creative thinking with practical execution."}
             </motion.p>
 
             <motion.div
@@ -82,19 +82,18 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="flex flex-wrap items-center gap-4"
             >
-              <Link href="/contact" className="btn-primary inline-flex items-center gap-2">
-                Let&apos;s Talk
-                <ArrowRight className="w-4 h-4" />
+              <Link href="/contact" className="btn-primary group">
+                Start a Conversation
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link
-                href="/about"
-                className="inline-flex items-center gap-1.5 text-sm text-foreground-muted hover:text-accent-light transition-colors"
-              >
-                About me
-                <ArrowUpRight className="w-3.5 h-3.5" />
+              <Link href="/projects" className="btn-secondary">
+                View My Work
               </Link>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
               <a
-                href={profile.linkedin || "https://www.linkedin.com/in/m-prem-/"}
+                href={profile.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-sm text-foreground-muted hover:text-accent-light transition-colors"
