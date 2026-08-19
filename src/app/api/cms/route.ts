@@ -53,6 +53,7 @@ export async function GET() {
     certifications: stored.certifications ?? defaults.certifications,
     testimonials: stored.testimonials ?? defaults.testimonials,
     capabilities: stored.capabilities ?? defaults.capabilities,
+    news: stored.news ?? defaults.news,
     updatedAt: row?.updated_at || stored.updatedAt || defaults.updatedAt,
   };
 
