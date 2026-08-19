@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ScrollProgress from "@/components/layout/ScrollProgress";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
+import NetworkParticles from "@/components/home/NetworkParticles";
 
 export default function SiteShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -17,11 +18,15 @@ export default function SiteShell({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <ScrollProgress />
-      <Navbar />
-      <main className="min-h-screen">{children}</main>
-      <Footer />
-      <WhatsAppButton />
+      {/* Full-page digital marketing network + soft particles */}
+      <NetworkParticles fullPage intensity={0.9} />
+      <div className="relative z-10">
+        <ScrollProgress />
+        <Navbar />
+        <main className="min-h-screen">{children}</main>
+        <Footer />
+        <WhatsAppButton />
+      </div>
     </>
   );
 }
