@@ -27,6 +27,7 @@ body {
   overflow-x: hidden;
 }
 
+/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -45,16 +46,19 @@ body {
   background: #334155;
 }
 
+/* Selection */
 ::selection {
   background: rgba(59, 130, 246, 0.35);
   color: #fff;
 }
 
+/* Focus visible */
 :focus-visible {
-  outline: 2px solid var(--color-accent, #3b82f6);
+  outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }
 
+/* Glass card utility */
 @layer components {
   .glass {
     @apply bg-glass border border-glass-border backdrop-blur-xl;
@@ -90,7 +94,12 @@ body {
 
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium text-foreground
-      border border-border rounded-full hover:border-accent/50 hover:bg-accent/10 transition-all duration-300;
+      border border-border rounded-full transition-all duration-300;
+  }
+
+  .btn-secondary:hover {
+    border-color: rgba(var(--color-accent-rgb, 59, 130, 246), 0.5);
+    background-color: rgba(var(--color-accent-rgb, 59, 130, 246), 0.1);
   }
 
   .section-heading {
@@ -103,9 +112,12 @@ body {
 
   .badge {
     @apply inline-flex items-center px-3 py-1 text-xs font-medium tracking-wider uppercase
-      rounded-full border border-accent/30 bg-accent/10 text-accent-light;
+      rounded-full text-accent-light;
+    border: 1px solid rgba(var(--color-accent-rgb, 59, 130, 246), 0.3);
+    background-color: rgba(var(--color-accent-rgb, 59, 130, 246), 0.1);
   }
 
+  /* Noise texture overlay */
   .noise {
     position: relative;
   }
