@@ -68,8 +68,7 @@ export async function PUT(req: NextRequest) {
   if (!isSupabaseConfigured()) {
     return NextResponse.json(
       {
-        error:
-          "Supabase not configured. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.",
+        error: "Supabase not configured. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.",
         configured: false,
       },
       { status: 503 }
