@@ -7,6 +7,13 @@
   --foreground: #f0f4f8;
   --accent: #3b82f6;
   --accent-electric: #00d4ff;
+  --color-accent: #3b82f6;
+  --color-accent-light: #60a5fa;
+  --color-accent-dark: #2563eb;
+  --color-accent-glow: #1d4ed8;
+  --color-accent-electric: #00d4ff;
+  --color-accent-rgb: 59, 130, 246;
+  --color-electric-rgb: 0, 212, 255;
 }
 
 html {
@@ -44,7 +51,7 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid var(--color-accent, #3b82f6);
   outline-offset: 2px;
 }
 
@@ -121,11 +128,5 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-}
-
-@media (pointer: fine) {
-  .custom-cursor {
-    pointer-events: none;
   }
 }
