@@ -9,6 +9,7 @@ import type {
   Article,
   Certification,
   Testimonial,
+  NewsItem,
 } from "@/types";
 import {
   profile as defaultProfile,
@@ -22,6 +23,7 @@ import {
   certifications as defaultCertifications,
   testimonials as defaultTestimonials,
   capabilities as defaultCapabilities,
+  news as defaultNews,
 } from "@/data/mock";
 
 export const CMS_STORAGE_KEY = "mprem_cms_v1";
@@ -38,6 +40,7 @@ export interface CMSData {
   certifications: Certification[];
   testimonials: Testimonial[];
   capabilities: string[];
+  news: NewsItem[];
   updatedAt: string;
 }
 
@@ -54,6 +57,7 @@ export function getDefaultCMSData(): CMSData {
     certifications: [...defaultCertifications],
     testimonials: [...defaultTestimonials],
     capabilities: [...defaultCapabilities],
+    news: [...defaultNews],
     updatedAt: new Date().toISOString(),
   };
 }
@@ -79,6 +83,7 @@ export function loadCMSData(): CMSData {
       certifications: parsed.certifications ?? defaults.certifications,
       testimonials: parsed.testimonials ?? defaults.testimonials,
       capabilities: parsed.capabilities ?? defaults.capabilities,
+      news: parsed.news ?? defaults.news,
       updatedAt: parsed.updatedAt ?? defaults.updatedAt,
     };
   } catch {
