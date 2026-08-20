@@ -116,10 +116,12 @@ export default function Hero() {
               style={{ x, y }}
               className="relative w-72 h-[22rem] md:w-80 md:h-[26rem] rounded-3xl overflow-hidden glass-card border-accent/20 shadow-glow-lg"
             >
+              {/* Close crop, shifted slightly up so face fills the frame */}
               <img
                 src={PROFILE_SUIT}
                 alt={profile.name}
-                className="absolute inset-0 w-full h-full object-cover object-top"
+                className="absolute inset-0 w-full h-full object-cover scale-110"
+                style={{ objectPosition: "center 12%" }}
               />
               {/* Strong bottom fade so name stays readable */}
               <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none" />
