@@ -7,6 +7,7 @@ import HowIWork from "@/components/home/HowIWork";
 import SkillsEcosystem from "@/components/home/SkillsEcosystem";
 import ExperienceTimeline from "@/components/home/ExperienceTimeline";
 import FeaturedProject from "@/components/home/FeaturedProject";
+import WorkGallery from "@/components/home/WorkGallery";
 import TrendsNews from "@/components/home/TrendsNews";
 import ContactCTA from "@/components/home/ContactCTA";
 
@@ -21,10 +22,12 @@ export default function HomePage() {
       <HowIWork />
       <SkillsEcosystem />
       <ExperienceTimeline />
+      <WorkGallery />
       <FeaturedProject />
 
       <TrendsNews />
 
+      {/* Insights — empty state, CMS-ready */}
       <section className="py-20 md:py-24 border-t border-border">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
           <p className="badge mb-4 mx-auto w-fit">Insights</p>
@@ -42,6 +45,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Testimonials — empty state, no fabricated quotes */}
       <section className="py-20 md:py-24 bg-background-secondary/40 border-t border-border">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
           <p className="badge mb-4 mx-auto w-fit">Feedback</p>
