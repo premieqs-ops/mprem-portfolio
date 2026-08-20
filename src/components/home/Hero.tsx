@@ -6,6 +6,7 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Badge from "@/components/ui/Badge";
 import { useCMSData } from "@/components/cms/CMSProvider";
+import { PROFILE_SUIT } from "@/lib/profileImages";
 
 const floatingNodes = [
   { label: "SEO", x: "8%", y: "18%" },
@@ -116,12 +117,13 @@ export default function Hero() {
               style={{ x, y }}
               className="relative w-72 h-80 md:w-80 md:h-96 rounded-3xl overflow-hidden glass-card border-accent/20 shadow-glow-lg"
             >
+              <div className="absolute inset-0 bg-gradient-to-b from-[#0a0e14] via-[#0d1520] to-[#0a0e14]" />
               <img
-                src={profile.profileImage || "/profile.jpg"}
+                src={PROFILE_SUIT}
                 alt={profile.name}
-                className="absolute inset-0 w-full h-full object-cover object-top"
+                className="absolute inset-0 w-full h-full object-contain object-bottom drop-shadow-2xl"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent pointer-events-none" />
               <div className="absolute bottom-0 left-0 right-0 p-5">
                 <p className="text-sm font-medium text-foreground">{profile.name}</p>
                 <p className="text-xs text-foreground-subtle">{profile.location}</p>
