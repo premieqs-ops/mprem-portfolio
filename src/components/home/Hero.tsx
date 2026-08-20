@@ -114,19 +114,28 @@ export default function Hero() {
           >
             <motion.div
               style={{ x, y }}
-              className="relative w-72 h-80 md:w-80 md:h-96 rounded-3xl overflow-hidden glass-card border-accent/20 shadow-glow-lg"
+              className="relative w-72 h-[22rem] md:w-80 md:h-[26rem] rounded-3xl overflow-hidden glass-card border-accent/20 shadow-glow-lg"
             >
-              <div className="absolute inset-0 bg-gradient-to-b from-[#0a0e14] via-[#0d1520] to-[#0a0e14]" />
               <img
                 src={PROFILE_SUIT}
                 alt={profile.name}
-                className="absolute inset-0 w-full h-full object-contain object-bottom drop-shadow-2xl"
+                className="absolute inset-0 w-full h-full object-cover object-top"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute bottom-0 left-0 right-0 p-5">
-                <p className="text-sm font-medium text-foreground">{profile.name}</p>
-                <p className="text-xs text-foreground-subtle">{profile.location}</p>
-              </div>
+              {/* Strong bottom fade so name stays readable */}
+              <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none" />
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
+                className="absolute bottom-0 left-0 right-0 p-5 md:p-6"
+              >
+                <p className="text-base md:text-lg font-semibold text-white tracking-wide drop-shadow-lg">
+                  {profile.name}
+                </p>
+                <p className="text-xs md:text-sm text-white/80 mt-0.5 drop-shadow">
+                  {profile.location}
+                </p>
+              </motion.div>
               <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-accent/30 via-accent-electric/20 to-accent/30 blur-sm -z-10" />
             </motion.div>
 
