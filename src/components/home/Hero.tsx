@@ -6,7 +6,7 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Badge from "@/components/ui/Badge";
 import { useCMSData } from "@/components/cms/CMSProvider";
-import { PROFILE_SUIT } from "@/lib/profileImages";
+import { PROFILE_SUIT } from "@/lib/profileSuit";
 
 const floatingNodes = [
   { label: "SEO", x: "8%", y: "18%" },
@@ -50,7 +50,6 @@ export default function Hero() {
           backgroundSize: "60px 60px",
         }}
       />
-      {/* Network runs full-page via SiteShell */}
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full py-16 md:py-24">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">

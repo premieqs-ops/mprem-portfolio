@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Badge from "@/components/ui/Badge";
 import { useCMSData } from "@/components/cms/CMSProvider";
-import { PROFILE_ABOUT } from "@/lib/profileImages";
+import { PROFILE_ABOUT } from "@/lib/profileAbout";
 
 export default function AboutPreview() {
   const { profile } = useCMSData();
@@ -15,7 +15,6 @@ export default function AboutPreview() {
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Visual */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -31,11 +30,9 @@ export default function AboutPreview() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
             </div>
-            {/* Decorative */}
             <div className="absolute -bottom-6 -right-6 w-32 h-32 rounded-2xl border border-accent/20 bg-accent/5 -z-10" />
           </motion.div>
 
-          {/* Content */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
