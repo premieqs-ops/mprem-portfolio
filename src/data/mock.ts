@@ -15,25 +15,25 @@ import type {
 export const profile: Profile = {
   id: "1",
   name: "M Prem",
-  headline: "Digital Marketing & Business Growth Professional",
-  bio: "I operate at the intersection of digital marketing, business development, and technology. My focus is not activity for its own sake — it is understanding the real business objective, identifying the highest-leverage digital opportunities, and turning strategy into measurable execution.\n\nI help companies strengthen their digital presence, generate qualified pipeline, and build practical growth systems across marketing, business development, and digital channels. Based in Chennai, I work with founders and teams who want clarity, accountability, and results — not vanity metrics.",
-  location: "Chennai, Tamil Nadu, India",
-  email: "hello@mprem.in",
-  phone: "+91 XXXXX XXXXX",
-  linkedin: "https://www.linkedin.com/in/m-prem-/",
-  whatsapp: "",
+  headline: "Manager — Digital Marketing, Business Development & Analytics",
+  bio: "MBA graduate and digital marketing professional with hands-on experience across digital marketing, business development, recruiting, and analytics.\n\nCurrently Manager at Human IntelR, leading digital marketing, business development, and analytics. Previously Business Development Executive at Pyroferus Technologies and Digital Marketing & Recruiting at IEQS Group.\n\nI help businesses strengthen digital presence, generate qualified pipeline, and turn strategy into practical growth systems. Based in Tamil Nadu — open to opportunities where accountability and results matter.",
+  location: "Gudalur / Chennai, Tamil Nadu, India",
+  email: "premmohan0147@gmail.com",
+  phone: "+91 95003 63147",
+  linkedin: "https://www.linkedin.com/in/prem-m-04486a245",
+  whatsapp: "9500363147",
   profileImage: "/profile.jpg",
   resumeUrl: null,
   resumeVersion: "1.0",
   resumeUpdatedAt: null,
   currentlyExploring: [
-    "AI-powered Marketing",
-    "Marketing Automation",
-    "SEO Systems",
+    "Digital Marketing Strategy",
+    "Business Development",
+    "Analytics & Reporting",
+    "Lead Generation",
     "Performance Marketing",
-    "Revenue Analytics",
-    "Growth Strategy",
-    "Demand Generation",
+    "Growth Systems",
+    "Talent Acquisition",
   ],
   updatedAt: new Date().toISOString(),
 };
@@ -42,23 +42,65 @@ export const experiences: Experience[] = [
   {
     id: "1",
     company: "Human IntelR",
-    role: "Digital Marketing & Business Development",
-    location: "Chennai, India",
-    startDate: "",
+    role: "Manager — Digital Marketing, Business Development & Analytics",
+    location: "India",
+    startDate: "2024-03",
     endDate: null,
     current: true,
     description:
-      "Driving digital marketing and business development initiatives at Human IntelR — a consulting firm focused on shaping the future of businesses, products, and services. Bridging strategy and execution across channels, pipeline, and growth systems.",
+      "Leading digital marketing, business development, and analytics at Human IntelR. Responsible for growth initiatives, channel strategy, pipeline development, and performance insights.",
     responsibilities: [
-      "Digital marketing strategy & multi-channel execution",
-      "Business development and opportunity mapping",
-      "Lead generation systems and qualification frameworks",
-      "Content, SEO, and channel strategy aligned to pipeline goals",
+      "Digital marketing strategy and multi-channel execution",
+      "Business development and opportunity development",
+      "Analytics, reporting, and performance tracking",
+      "Lead generation and qualification support",
     ],
     achievements: [],
     logo: null,
     status: "published",
     order: 1,
+  },
+  {
+    id: "2",
+    company: "Pyroferus Technologies",
+    role: "Business Development Executive",
+    location: "India",
+    startDate: "2023-08",
+    endDate: "2023-09",
+    current: false,
+    description:
+      "Business development role focused on market outreach, opportunity mapping, and supporting growth conversations for the organization.",
+    responsibilities: [
+      "Business development outreach and follow-ups",
+      "Opportunity identification and pipeline support",
+      "Client and partner relationship support",
+    ],
+    achievements: [],
+    logo: null,
+    status: "published",
+    order: 2,
+  },
+  {
+    id: "3",
+    company: "IEQS Group",
+    role: "Digital Marketing and Recruiting",
+    location: "India",
+    startDate: "2022-10",
+    endDate: "2023-05",
+    current: false,
+    description:
+      "Handled digital marketing and recruiting activities at IEQS Group. Combined channel execution with talent acquisition support, including project work on challenges in the talent acquisition process.",
+    responsibilities: [
+      "Digital marketing execution and campaign support",
+      "Recruiting and talent acquisition support",
+      "MBA project: The Challenges to Talent Acquisition Process",
+    ],
+    achievements: [
+      "Completed MBA project on Talent Acquisition Process challenges at IEQS Group (2023)",
+    ],
+    logo: null,
+    status: "published",
+    order: 3,
   },
 ];
 
@@ -248,11 +290,63 @@ export const skills: Skill[] = [
     order: 11,
     status: "published",
   },
+  {
+    id: "12",
+    name: "MS Office & Excel",
+    category: "Tools",
+    description: "Professional productivity, analysis, and reporting with MS Office and Excel.",
+    relatedServices: ["business-development", "digital-marketing"],
+    relatedTools: ["Excel", "Word", "PowerPoint"],
+    order: 12,
+    status: "published",
+  },
 ];
 
 export const projects: Project[] = [
   {
     id: "1",
+    title: "The Challenges to Talent Acquisition Process",
+    slug: "talent-acquisition-challenges",
+    industry: "HR / Recruiting",
+    objective:
+      "Study and document challenges in the talent acquisition process at IEQS Group as part of the MBA project.",
+    services: ["Business Development", "Digital Marketing"],
+    challenge:
+      "Talent acquisition processes often face gaps between hiring needs, sourcing, screening, and conversion — impacting speed and quality of hire.",
+    solution:
+      "Analyzed the end-to-end talent acquisition process at IEQS Group, identified friction points, and framed practical recommendations for improvement.",
+    outcome:
+      "Completed MBA project (2023) with structured findings on talent acquisition challenges and process improvement opportunities.",
+    tools: ["Research", "Process analysis", "MS Office", "Excel"],
+    image: null,
+    liveUrl: null,
+    featured: true,
+    status: "published",
+    order: 1,
+  },
+  {
+    id: "2",
+    title: "Summer Project — Delsy India Pvt Ltd",
+    slug: "delsy-india-summer-project",
+    industry: "Business",
+    objective:
+      "MBA summer project at Delsy India Pvt Ltd (2022) focused on applied business learning.",
+    services: ["Business Development"],
+    challenge:
+      "Bridge academic MBA learning with real organizational exposure and practical business understanding.",
+    solution:
+      "Completed a structured summer project engagement at Delsy India Pvt Ltd, applying business administration concepts in a live environment.",
+    outcome:
+      "Hands-on exposure to business operations and professional practices during the MBA program (2022).",
+    tools: ["MS Office", "Excel", "Business analysis"],
+    image: null,
+    liveUrl: null,
+    featured: true,
+    status: "published",
+    order: 2,
+  },
+  {
+    id: "3",
     title: "Digital Growth Framework",
     slug: "digital-growth-framework",
     industry: "Business Services",
@@ -268,9 +362,9 @@ export const projects: Project[] = [
     tools: ["Google", "Meta", "Analytics", "CRM"],
     image: null,
     liveUrl: null,
-    featured: true,
+    featured: false,
     status: "published",
-    order: 1,
+    order: 3,
   },
 ];
 
@@ -324,9 +418,9 @@ export const articles: Article[] = [
 export const certifications: Certification[] = [];
 
 export const siteSettings: SiteSettings = {
-  siteTitle: "M Prem — Digital Marketing & Business Growth",
+  siteTitle: "M Prem — Digital Marketing, BD & Analytics",
   siteDescription:
-    "Digital marketing and business growth professional based in Chennai. Helping businesses strengthen digital presence, generate qualified pipeline, and build practical growth systems.",
+    "Manager — Digital Marketing, Business Development & Analytics. MBA professional helping businesses strengthen digital presence, generate pipeline, and build practical growth systems.",
   favicon: "/favicon.ico",
   logo: "",
   primaryColor: "#3b82f6",
@@ -334,9 +428,9 @@ export const siteSettings: SiteSettings = {
   electricColor: "#00d4ff",
   ogImage: "/og-default.png",
   googleAnalyticsId: "",
-  contactEmail: "hello@mprem.in",
-  whatsappNumber: "",
-  linkedinUrl: "https://www.linkedin.com/in/m-prem-/",
+  contactEmail: "premmohan0147@gmail.com",
+  whatsappNumber: "9500363147",
+  linkedinUrl: "https://www.linkedin.com/in/prem-m-04486a245",
   enableTestimonials: true,
   enableBlog: true,
   enableProjects: true,
@@ -351,14 +445,14 @@ export const socialLinks: SocialLink[] = [
   {
     id: "1",
     platform: "LinkedIn",
-    url: "https://www.linkedin.com/in/m-prem-/",
+    url: "https://www.linkedin.com/in/prem-m-04486a245",
     enabled: true,
   },
   {
     id: "2",
     platform: "WhatsApp",
-    url: "",
-    enabled: false,
+    url: "https://wa.me/919500363147",
+    enabled: true,
   },
   {
     id: "3",
@@ -377,12 +471,11 @@ export const socialLinks: SocialLink[] = [
 export const capabilities = [
   "Digital Marketing",
   "Business Development",
-  "SEO Systems",
+  "Analytics",
   "Lead Generation",
+  "Recruiting / Talent Acquisition",
+  "MS Office & Excel",
   "Growth Strategy",
-  "AI & Automation",
-  "Content Systems",
-  "Revenue Analytics",
   "Performance Marketing",
-  "Pipeline Design",
+  "Pipeline Support",
 ];
